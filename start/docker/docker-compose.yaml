@@ -1,0 +1,38 @@
+version: '3.8'
+
+networks:
+  multi-cache:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.3.0/24
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8
+    volumes:
+      - ./mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/logs:/logs
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=1009
+    networks:
+      multi-cache:
+        ipv4_address: 172.30.3.2
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    volumes:
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/dist:/usr/share/nginx/dist
+    ports:
+      - "8080:8080"
+    networks:
+      multi-cache:
+        ipv4_address: 172.30.3.3
