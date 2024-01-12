@@ -8,6 +8,8 @@ spring:
     username: root
     password: 1009
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 172.30.3.21
 mybatis-plus:
   type-aliases-package: com.heima.item.pojo
   configuration:
@@ -21,3 +23,6 @@ logging:
     com.heima: debug
   pattern:
     dateformat: HH:mm:ss:SSS
+canal:
+  destination: example
+  server: 172.30.3.7:11111
